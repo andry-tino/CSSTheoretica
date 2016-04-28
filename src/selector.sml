@@ -9,20 +9,28 @@ datatype element = Div
                  | Body
 
 (* 
- * In a clause, we recognize an identifier. 
+ * In a clause, we recognize an identifier. Identifiers can be of types:
+ * - Element: name of an element (`div`, `span`, etc.)
+ * - Class name: `.<class-name>`.
+ * - Id: `#<id>`.
+ * - Pseudo-element: `:<name>`.
  *)
 datatype identifier = Element of 'element (* An HTML element *)
                     | Class               (* A class name *)
+                    | Id                  (* An id *)
 
 (* 
- * A clause is defined as a list of terms.
- * [.|~|+]? <identifier> = <clause>
+ * A clause determines how a particular identifier is connected to the previous.
+ * Possible connections are:
+ * - AND: both clause must hold together.
+ * - Space: Descendant.
+ * - Operator `>`: Direct descendant.
+ * - Operator `~`: Successor.
  *)
 datatype clause = None    of 'identifier	(* No connective => AND/no space in CSS *)
                 | Desc    of 'identifier	(* Descendant *)
                 | DirDesc of 'identifier	(* Direct descendant *)
                 | Succ    of 'identifier	(* Successor *)
-                | Conj    of 'identifier	(* More selectors, maps the comma in CSS *)
 
 (* 
  * A selector is intended as a list of clauses.
