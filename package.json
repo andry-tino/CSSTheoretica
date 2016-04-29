@@ -1,0 +1,39 @@
+{
+  "name": "csstheoretica",
+  "version": "1.0.0",
+  "description": "A Standard-ML library to formalize the W3C CSS specification",
+  "main": "index.js",
+  
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  
+  "dependencies": {
+    "jake": ">=8.0"
+  },
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andry-tino/CSSTheoretica.git"
+  },
+  
+  "keywords": [
+    "css",
+    "standard-ml",
+    "sml",
+    "specification",
+    "formal-analysis"
+  ],
+  
+  "author": "Andrea Tino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andry-tino/CSSTheoretica/issues"
+  },
+  "homepage": "https://github.com/andry-tino/CSSTheoretica#readme"
+}
