@@ -1,8 +1,16 @@
-(* Andrea Tino *)
-(* selector.sml *)
+(* ===================================================================== *)
+(* FILE          : selector.sml                                          *)
+(* DESCRIPTION   : Definition for selectors in CSS.                      *)
+(*                                                                       *)
+(* AUTHORS       : (c) Andrea Tino                                       *)
+(* DATE          : 2016                                                  *)
+(* ===================================================================== *)
 
-(* 
- * HTML elements. 
+structure Selector =
+struct
+
+(*
+ * HTML elements.
  *)
 datatype element = Div
                  | Span
@@ -38,3 +46,5 @@ datatype clause = None    of 'identifier	(* No connective => AND/no space in CSS
 datatype selector = Empty                     (* An empty selector *)
                   | Node of clause            (* A selector with one clause only *)
                   | List of selector * clause (* Enabling list *)
+
+end (* structure *)
