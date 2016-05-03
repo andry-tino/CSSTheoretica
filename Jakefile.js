@@ -43,6 +43,11 @@
       console.log(e.output.toString());
       fail("Compilation failed!");
     }
+    console.log("Compilation done!");
+    
+    // Move output files from src to out
+    console.log("Moving output files...");
+    moveOutputFiles();
     
     console.log("Terminated:");
     console.log(output.toString());
@@ -50,14 +55,10 @@
   
   desc("Removes output files from source locations and cleans up folders");
   task("cleanup", function() {
-    var files = [];
-    files = files.concat(glob("src/*.ui"));
-    files = files.concat(glob("src/*.uo"));
-    
+    var files = getOutputFiles();
     console.log("Cleaning up source locations from output files:", files);
     
     for (var key in files) fs.unlinkSync(files[key]);
-    
     console.log("Cleanup done!");
   });
   
@@ -65,8 +66,26 @@
   jake.addListener("complete", function() {
     jake.Task["cleanup"].invoke();
   });
-  
   jake.addListener("error", function() {
     jake.Task["cleanup"].invoke();
   });
+  
+  // Private functions
+  function moveOutputFiles() {
+    var files = getOutputFiles();
+    if (files.length === 0) return;
+    
+    for (var key in files) {
+      var oldPath = files[key];
+      var newPath = path.join("out", path.basename(oldPath));
+      fs.rename(oldPath, newPath);
+    }
+  }
+  
+  function getOutputFiles() {
+    var files = [];
+    files = files.concat(glob("src/*.ui"));
+    files = files.concat(glob("src/*.uo"));
+    return files;
+  }
 })();

@@ -35,13 +35,15 @@ type spectuple = int * int * int * int
 (* 
  * Structure implementing specificity breakdown (N,I,C,E).
  *)
-val empty = (0, 0, 0, 0)
+val empty : spectuple = (0, 0, 0, 0)
 
 (* 
  * Structure implementing specificity breakdown (N,I,C,E).
  *)
-fun add ((t11, t12, t13, t14), (t21, t22, t23, t24)) =
-  (t11 + t21, t12 + t22, t13 + t23, t14 + t24)
+fun add (
+  (t11, t12, t13, t14) : spectuple, 
+  (t21, t22, t23, t24) : spectuple) =
+    (t11 + t21, t12 + t22, t13 + t23, t14 + t24)
 
 (* 
  * Gets the specificity of a selector. 
