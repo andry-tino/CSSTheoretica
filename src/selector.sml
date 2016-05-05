@@ -39,8 +39,8 @@ datatype clause = None    of identifier	(* No connective => AND/no space in CSS 
 (* 
  * A selector is intended as a list of clauses.
  *)
-datatype selector = Empty                     (* An empty selector *)
-                  | Node of clause            (* A selector with one clause only *)
-                  | List of selector * clause (* Enabling list *)
+datatype selector = Empty                       (* An empty selector *)
+                  | Node of clause              (* A selector with one clause only *)
+                  | List of selector * selector (* Enabling list *)
 
 end (* structure *)

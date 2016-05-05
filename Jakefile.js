@@ -18,6 +18,9 @@
     return res;
   })(glob("src/*.sml").concat(glob("src/*.sig")));
   
+  // Compilation arguments
+  var arguments = ["-structure", "-c"];
+  
   // Provided: path to `mosmlc`
   // TODO: var compilerPath = process.env.pathToCompiler;
   var compilerPath = path.join("C:", "Program Files (x86)", "mosml", "bin");
@@ -37,7 +40,7 @@
     
     try {
       var output = execFile(path.join(compilerPath, compiler), 
-        ["-structure"].concat(sources));
+        arguments.concat(sources));
     } catch(e) {
       console.log("Error when compiling!")
       console.log(e.output.toString());

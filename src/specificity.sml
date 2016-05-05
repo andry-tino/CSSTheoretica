@@ -49,9 +49,9 @@ fun add (
  * Gets the specificity of a selector. 
  * This should return a tuple (N,I,C,E).
  *)
-fun specificity (Sel.List (s, c)) = 
+fun specificity (Sel.List (s1, s2)) = 
     (* We pass a list recursively *)
-    specificity (s) + specificity (c)
+    specificity (s1) + specificity (s2)
   | specificity (Sel.Node c) = 
     (* Here we need to determine the type of clause *)
     1
