@@ -1,4 +1,6 @@
 (* ===================================================================== *)
+(* FILE          : Element.sml                                           *)
+(* DESCRIPTION   : Definition for all elements in HTML.                  *)
 (*                                                                       *)
 (* AUTHORS       : (c) Andrea Tino                                       *)
 (* DATE          : 2016                                                  *)
