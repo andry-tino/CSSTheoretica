@@ -1,5 +1,5 @@
 (* ===================================================================== *)
-(* FILE          : selector.sml                                          *)
+(* FILE          : Selector.sml                                          *)
 (* DESCRIPTION   : Definition for selectors in CSS.                      *)
 (*                                                                       *)
 (* AUTHORS       : (c) Andrea Tino                                       *)
@@ -9,12 +9,8 @@
 structure Selector =
 struct
 
-(*
- * HTML elements.
- *)
-datatype element = Div
-                 | Span
-                 | Body
+(* Dependencies *)
+structure El = Element
 
 (* 
  * In a clause, we recognize an identifier. Identifiers can be of types:
@@ -23,9 +19,9 @@ datatype element = Div
  * - Id: `#<id>`.
  * - Pseudo-element: `:<name>`.
  *)
-datatype identifier = Element of 'element (* An HTML element *)
-                    | Class               (* A class name *)
-                    | Id                  (* An id *)
+datatype identifier = Element of El.element  (* An HTML element *)
+                    | Class of string     (* A class name *)
+                    | Id of string        (* An id *)
 
 (* 
  * A clause determines how a particular identifier is connected to the previous.
@@ -35,10 +31,10 @@ datatype identifier = Element of 'element (* An HTML element *)
  * - Operator `>`: Direct descendant.
  * - Operator `~`: Successor.
  *)
-datatype clause = None    of 'identifier	(* No connective => AND/no space in CSS *)
-                | Desc    of 'identifier	(* Descendant *)
-                | DirDesc of 'identifier	(* Direct descendant *)
-                | Succ    of 'identifier	(* Successor *)
+datatype clause = None    of identifier	(* No connective => AND/no space in CSS *)
+                | Desc    of identifier	(* Descendant: `div span` *)
+                | DirDesc of identifier	(* Direct descendant: `div > span` *)
+                | Succ    of identifier	(* Successor: `div ~ span` *)
 
 (* 
  * A selector is intended as a list of clauses.

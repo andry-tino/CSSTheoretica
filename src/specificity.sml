@@ -1,5 +1,5 @@
 (* ===================================================================== *)
-(* FILE          : specificity.sml                                       *)
+(* FILE          : Specificity.sml                                       *)
 (* DESCRIPTION   : Definition for specificity in CSS.                    *)
 (*                                                                       *)
 (* AUTHORS       : (c) Andrea Tino                                       *)
@@ -10,7 +10,7 @@ structure Specificity =
 struct
 
 (* Dependencies *)
-structure S = Specificity
+structure Sel = Selector
 
 (*
  * Specificity is calculated by justaxposition of numbers:
@@ -49,12 +49,12 @@ fun add (
  * Gets the specificity of a selector. 
  * This should return a tuple (N,I,C,E).
  *)
-fun specificity (List s c) = 
+fun specificity (Sel.List (s, c)) = 
     (* We pass a list recursively *)
     specificity (s) + specificity (c)
-  | specificity (Node c) = 
+  | specificity (Sel.Node c) = 
     (* Here we need to determine the type of clause *)
     1
-  | specificity (Empty) = 0
+  | specificity (Sel.Empty) = 0
 
 end (* structure *)
