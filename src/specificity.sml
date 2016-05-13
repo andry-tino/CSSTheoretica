@@ -33,12 +33,12 @@ structure Sel = Selector
 type spectuple = int * int * int * int
 
 (* 
- * Structure implementing specificity breakdown (N,I,C,E).
+ * The null specificity.
  *)
 val empty : spectuple = (0, 0, 0, 0)
 
 (* 
- * Structure implementing specificity breakdown (N,I,C,E).
+ * Adding spectuples.
  *)
 fun add (
   (t11, t12, t13, t14) : spectuple, 
@@ -47,6 +47,7 @@ fun add (
 
 (* 
  * Gets the specificity of a selector. 
+ * specificity: selector -> spectuple
  * This should return a tuple (N,I,C,E).
  *)
 fun specificity (Sel.List (s1, s2)) = 
@@ -56,5 +57,11 @@ fun specificity (Sel.List (s1, s2)) =
     (* Here we need to determine the type of clause *)
     1
   | specificity (Sel.Empty) = 0
+  
+(* 
+ * Gets the numeric specificity.
+ *)
+fun specnumber ((N,I,C,E) : spectuple) = 
+  N + I + C + E
 
 end (* structure *)

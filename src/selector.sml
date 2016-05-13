@@ -18,10 +18,12 @@ structure El = Element
  * - Class name: `.<class-name>`.
  * - Id: `#<id>`.
  * - Pseudo-element: `:<name>`.
+ *
+ * TODO: Maybe rename this into `node` or similar
  *)
-datatype identifier = Element of El.element  (* An HTML element *)
-                    | Class of string     (* A class name *)
-                    | Id of string        (* An id *)
+datatype identifier = Element of El.element   (* An HTML element *)
+                    | Class   of string       (* A class name *)
+                    | Id      of string       (* An id *)
 
 (* 
  * A clause determines how a particular identifier is connected to the previous.
