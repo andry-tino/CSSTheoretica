@@ -18,35 +18,16 @@
     return res;
   })(glob("src/*.sml").concat(glob("src/*.sig")));
   
-  // Compilation arguments
-  var arguments = ["-structure", "-c"];
-  
-  // Provided: path to `mosmlc`
-  // TODO: var compilerPath = process.env.pathToCompiler;
-  var compilerPath = path.join("C:", "Program Files (x86)", "mosml", "bin");
-  var compiler = "mosmlc.exe";
-  
   // Tasks
   desc("Compiles all source files.");
   task("default", function() {
-    if (!compilerPath) fail("Invalid path!");
-    fs.accessSync(compilerPath, fs.F_OK);
-    
     console.log("Compiling files:", (function(s) {
       var out = [];
       for (var key in s) out.push(path.basename(s[key]));
       return out;
     })(sources));
     
-    try {
-      var output = execFile(path.join(compilerPath, compiler), 
-        arguments.concat(sources));
-    } catch(e) {
-      console.log("Error when compiling!")
-      console.log(e.output.toString());
-      fail("Compilation failed!");
-    }
-    console.log("Compilation done!");
+    compile();
     
     // Move output files from src to out
     console.log("Moving output files...");
@@ -74,6 +55,38 @@
   });
   
   // Private functions
+  function compile() {
+    // Compilation arguments
+    var arguments = ["-structure", "-c"];
+    
+    // Provided: path to `mosmlc`
+    // TODO: var compilerPath = process.env.pathToCompiler;
+    var compilerPath = path.join("C:", "Program Files (x86)", "mosml", "bin");
+    var compiler = "mosmlc.exe";
+    
+    // Checking paths
+    if (!compilerPath) fail("Invalid path!");
+    fs.accessSync(compilerPath, fs.F_OK);
+    
+    console.log("Compiling with command:", compilerPath);
+    console.log("Compiling with args:", arguments);
+    
+    try {
+      var output = execFile(path.join(compilerPath, compiler), 
+        arguments.concat(sources));
+    } catch(e) {
+      console.log("Error when compiling!")
+      console.log(!e 
+        ? "No error info available!" 
+        : Object.keys(e).length == 0 
+          ? "Error object contains no data!" 
+          : e.output.toString());
+      fail("Compilation failed!");
+    }
+    
+    console.log("Compilation done!");
+  }
+  
   function moveOutputFiles() {
     var files = getOutputFiles();
     if (files.length === 0) return;
