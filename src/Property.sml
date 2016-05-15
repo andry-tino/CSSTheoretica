@@ -10,10 +10,16 @@ structure Property =
 struct
 
 (* 
+ * Constructor `Nil` is used just to be able to refer a property 
+ * without specifying an actual value for it.
+ *)
+
+(* 
  * Property `align-content`.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
  *)
-datatype aligncontentvalue = FlexStart
+datatype aligncontentvalue = Nil
+                           | FlexStart
                            | FlexEnd
                            | Center
                            | SpaceBetween
@@ -27,7 +33,8 @@ datatype aligncontentvalue = FlexStart
  * Property `align-items`.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
  *)
-datatype alignitemsvalue = FlexStart
+datatype alignitemsvalue = Nil
+                         | FlexStart
                          | FlexEnd
                          | Center
                          | Baseline
@@ -37,7 +44,7 @@ datatype alignitemsvalue = FlexStart
                          | Unset
 
 (* 
- * TODO: The rest.
+ * TODO: The rest...
  *)
 
 (* 
@@ -47,5 +54,12 @@ datatype alignitemsvalue = FlexStart
 datatype property = AlignContent of aligncontentvalue
                   | AlignItems of alignitemsvalue
                   | Null
+
+(* 
+ * References to properties without actual values.
+ *)
+
+val aligncontentprop : property = AlignContent Nil
+val alignitems       : property = AlignItems   Nil
 
 end (* structure *)

@@ -21,7 +21,8 @@ structure Prop = Property
  * TODO: Missing the third parameter: list of rules
  *)
 fun resolve (
-  e : El.element, 
-  p : Prop.property) = 0
+  e  : El.element, 
+  p  : Prop.property,
+  db : Prop.property list) = 0
 
 end (* structure *)
