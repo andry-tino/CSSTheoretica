@@ -1,23 +1,27 @@
 (* ===================================================================== *)
-(* FILE          : Rule.sml                                              *)
+(* FILE          : Resolver.sml                                          *)
 (* DESCRIPTION   : Definition for CSS rules.                             *)
 (*                                                                       *)
 (* AUTHORS       : (c) Andrea Tino                                       *)
 (* DATE          : 2016                                                  *)
 (* ===================================================================== *)
 
-structure Rule =
+structure Resolver =
 struct
 
 (* Dependencies *)
-structure Sel = Selector
+structure El = Element
 structure Prop = Property
 
 
 (* 
- * A rule is an association between a selector and, 
- * a CSS property and a value for that property.
+ * Getting property value depending on element and 
+ * the set of rules.
+ *
+ * TODO: Missing the third parameter: list of rules
  *)
-datatype rule = Rule of Sel.selector * Prop.property
+fun resolve (
+  e : El.element, 
+  p : Prop.property) = 0
 
 end (* structure *)
