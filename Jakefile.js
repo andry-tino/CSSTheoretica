@@ -11,21 +11,15 @@
   // Platform
   var platform = process.platform;
   
-  // All sources
-  var sources = (function(srcs) {
-    var res = [];
-    for (var key in srcs) res.push(path.resolve(srcs[key]));
-    return res;
-  })(glob("src/*.sml").concat(glob("src/*.sig")));
-  
   // Tasks
+  // Compile -----------------------
   desc("Compiles all source files.");
   task("default", function() {
     console.log("Compiling files:", (function(s) {
       var out = [];
       for (var key in s) out.push(path.basename(s[key]));
       return out;
-    })(sources));
+    })(sources()));
     
     compile();
     
@@ -37,6 +31,7 @@
     console.log(output.toString());
   });
   
+  // Cleanup -------------------------------------------------------------
   desc("Removes output files from source locations and cleans up folders");
   task("cleanup", function() {
     var files = getOutputFiles();
@@ -55,14 +50,38 @@
   });
   
   // Private functions
+  function sources() {
+    // The order is important: first independent files, then dependent files
+    return resolveResources([
+      "Element.sml",
+      "Property.sml",
+      "Selector.sml",
+      "Specificity.sml",
+      "Resolver.sml",
+      "Rule.sml"
+    ]);
+    
+    function resolveResources(srcs) {
+      var res = [];
+      for (var key in srcs) 
+        res.push(path.resolve(path.join("src", srcs[key])));
+      return res;
+    }
+  }
+  
   function compile() {
     // Compilation arguments
-    var arguments = ["-structure", "-c"];
+    var arguments = ["-structure", "-c"].concat(sources());
     
     // Provided: path to `mosmlc`
     // TODO: var compilerPath = process.env.pathToCompiler;
-    var compilerPath = path.join("C:", "Program Files (x86)", "mosml", "bin");
     var compiler = "mosmlc.exe";
+    var compilerPath = path.join(
+      "C:", 
+      "Program Files (x86)", 
+      "mosml", 
+      "bin",
+      compiler);
     
     // Checking paths
     if (!compilerPath) fail("Invalid path!");
@@ -72,8 +91,7 @@
     console.log("Compiling with args:", arguments);
     
     try {
-      var output = execFile(path.join(compilerPath, compiler), 
-        arguments.concat(sources));
+      var output = execFile(compilerPath, arguments);
     } catch(e) {
       console.log("Error when compiling!")
       console.log(!e 
@@ -94,7 +112,7 @@
     for (var key in files) {
       var oldPath = files[key];
       var newPath = path.join("out", path.basename(oldPath));
-      fs.rename(oldPath, newPath);
+      fs.renameSync(oldPath, newPath);
     }
   }
   
